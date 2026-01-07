@@ -1,0 +1,13 @@
+-- Active: 1766419843621@@127.0.0.1@5433@auto
+CREATE TABLE cars(
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(20) NOT NULL,
+  price INT not NULL,
+  year VARCHAR(20)
+)
+
+CREATE TABLE customers(
+  id SERIAL PRIMARY KEY,
+  fullName VARCHAR(20) NOT NULL,
+  contact VARCHAR(13) NOT NULL UNIQUE
+)
