@@ -17,6 +17,11 @@ class Validation{
       month_count:Joi.number().valid(1,3,6).required(),
       amount:Joi.number().required()
     })
+
+  paymentSchema = Joi.object({
+    order_id:Joi.number().required(),
+    amount:Joi.number().positive().required()
+  })
   
 }
 

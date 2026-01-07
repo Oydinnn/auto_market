@@ -2,7 +2,39 @@ import pool from "../database/config.js";
 class OrderService{
   constructor(){}
 
-  async getAllOrders(){
+  async searchDebt(id){
+    const existOrder = await pool.query('select * from orders where id = $1',[id])
+    if(!existOrder.rows.length){
+      return{
+        status: 404,
+        message: 'Order not found'
+      }
+    }
+    const price = await pool.query('select price from cars where id=$1',[existOrder.rows[0].car_id])
+    price = price.rows[0].price
+
+    const totalPaid = await pool.query('select sum(amount) from payments group by order_id =$1',[id])
+    totalPaid = totalPaid.rows[0].sum
+
+    let month = {
+      1:1.15,
+      3:1.30,
+      6:1.55
+    }
+    const expected = month[existOrder.rows[0].month_count] * price
+    const debt = expected - totalPaid
+
+    return{
+      status: 200,
+      success: true,
+      data:{
+        ...existOrder,
+        debt
+      }
+    }
+  }
+
+  async getAllOrders(){order
     const orders = await pool.query('SELECT * FROM orders')
     return orders.rows
   }
