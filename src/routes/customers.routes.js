@@ -4,5 +4,6 @@ const router = Router()
 
 router
   .get("/customers", customerController.getAllCustomers)
+  .post("/customers", customerController.customerCreate)
 
   export default router
